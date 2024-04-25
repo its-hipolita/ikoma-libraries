@@ -1,0 +1,38 @@
+<cards version="2024/4/15 Onyx Oracle Edition (playtest)">	<!--"Oct 4, 2015 Kamisasori no Kaisho (Complete), Nov 28, 2017 Kolat 1.3.4">-->
+
+<card id="Onyx346" type="strategy">
+		<name>Sneak Attack</name>
+		<edition>Imperial</edition><image edition="Imperial">images/cards/Imperial/Imperial208.jpg</image>
+		<edition>Emerald</edition><image edition="Emerald">images/cards/Emerald/Emerald211.jpg</image>
+		<edition>Obsidian</edition><image edition="Obsidian">images/cards/Obsidian/Obsidian211.jpg</image>
+		<edition>Jade</edition><image edition="Jade">images/cards/Jade/Jade235.jpg</image>
+		<edition>Pearl</edition><image edition="Pearl">images/cards/Pearl/Pearl250.jpg</image>
+		<edition>SoSM</edition><image edition="SoSM">images/cards/SoSM/SoSM048.jpg</image>
+		<edition>Gold</edition><image edition="Gold">images/cards/Gold/Gold399.jpg</image>
+		<edition>Diamond</edition><image edition="Diamond">images/cards/Diamond/Diamond302.jpg</image>
+		<edition>TG</edition><image edition="TG">images/cards/TG/TG061.jpg</image>
+		<edition>Lotus</edition><image edition="Lotus">images/cards/Lotus/Lotus297.jpg</image>
+		<edition>TG2</edition><image edition="TG2">images/cards/TG2/TG2080.jpg</image>
+		<edition>Samurai</edition><image edition="Samurai">images/cards/Samurai/Samurai286.jpg</image>
+		<edition>Celestial</edition><image edition="Celestial">images/cards/Celestial/Celestial280.jpg</image>
+		<edition>Emperor</edition><image edition="Emperor">images/cards/Emperor/Emperor345.jpg</image>
+		<edition>Promo</edition><image edition="Promo">images/cards/Promo/Promo579.jpg</image>
+		<edition>Ivory</edition><image edition="Ivory">images/cards/Ivory/Ivory340.jpg</image>
+		<edition>Onyx</edition><image edition="Onyx">images/cards/Onyx/Onyx346.jpg</image>
+		<legal>open</legal>
+		<legal>jade</legal>
+		<legal>gold</legal>
+		<legal>diamond</legal>
+		<legal>lotus</legal>
+		<legal>samurai</legal>
+		<legal>celestial</legal>
+		<legal>emperor</legal>
+		<legal>ivory</legal>
+		<legal>20F</legal>
+		<legal>onyx</legal>
+                            <legal>shattered_empire</legal>
+		<text><![CDATA[<b>Engage:</b> The Attacker has the first opportunity to take a Battle action or pass in this battle.]]></text>
+		<focus>3</focus>
+		<artist><![CDATA[beet]]></artist>
+	</card>
+	</cards>
