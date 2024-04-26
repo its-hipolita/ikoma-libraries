@@ -1,14 +1,22 @@
 import React from 'react';
 import './App.css';
 import Home from './components/Home';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import DeckBuilder from './components/deckBuilder';
+import { Box, Grid } from '@mui/material';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Home></Home>
-      </header>
-    </div>
+    <Router>
+      <NavBar />
+      <Box>
+        <Routes>
+          <Route path="/deckbuilder" element={<DeckBuilder />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </Box>
+    </Router>
   );
 }
 

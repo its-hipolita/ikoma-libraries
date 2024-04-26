@@ -3,6 +3,11 @@ export interface SearchOptions {
     legalities: string[],
     types: string[],
     clans: string[],
+    textSearch: string;
+}
+
+export interface QuickSearch {
+  searchTerm: string;
 }
 
 export interface Card {
@@ -21,7 +26,6 @@ export interface Card {
     chi: string | null;
     personal_honor: string | null;
     honor_req: string | null;
-    // Other properties...
 }
 
 export const SET_SEARCH_OPTIONS = 'SET_SEARCH_OPTIONS';

@@ -4,6 +4,7 @@ import { Card } from '../app/types';
 import { fetchXmlData } from '../services/xmlservice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
+import { Grid } from '@mui/material';
 
 const ResultsView: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -11,12 +12,11 @@ const ResultsView: React.FC = () => {
     const [data, setData] = useState<Card[]>([]);
 
     const searchOptions = useSelector((state: RootState) => state.search);
-    console.log('Search Options:', searchOptions);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true); // Set loading to true before fetching data
-                const xmlData = await fetchXmlData('Hida'); // Pass searchTerm to fetchXmlData
+                const xmlData = await fetchXmlData(searchOptions); // Pass searchTerm to fetchXmlData
                 setData(xmlData);
                 setLoading(false);
             } catch (error: any) {
@@ -45,9 +45,9 @@ const ResultsView: React.FC = () => {
     }
 
     return (
-        <div>
+        <Grid container>
             <CardGallery cards={data} />
-        </div>
+        </Grid>
     );
 };
 

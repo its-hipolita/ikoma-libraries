@@ -1,6 +1,6 @@
 export const parseKeywordsAndText = (text: string) => {
     const startIndex = 0;
-    const endIndex = text.indexOf('<br>');
+    const endIndex = text.indexOf('<br><br>');
     if (endIndex !== -1) {
         const keywordsText = text.substring(startIndex, endIndex);
         
