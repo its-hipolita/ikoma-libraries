@@ -8,6 +8,7 @@ export interface SearchState {
   types: string[];
   clans: string[];
   textSearch: string,
+  keywords: any[];
 }
 
 const initialState: SearchState = {
@@ -17,6 +18,7 @@ const initialState: SearchState = {
   types: [],
   clans: [],
   textSearch: '',
+  keywords: [],
 };
 export interface DeckState {
   currentDeck: Card[];

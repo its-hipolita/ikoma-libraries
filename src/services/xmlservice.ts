@@ -1,6 +1,8 @@
 import { Card } from '../app/types';
 import imageList from '../services/imageList.json';
 import { SearchOptions } from '../app/types';
+import { parseKeywordsAndText } from './textparser';
+import { extractKeywords } from './extractKeywords';
 const allowedEditions = ['AM', 'AMoH', 'CRI', 'EP', 'GoC', 'GS', 'HFW', 'Ivory', 'Onyx', 'RoJ', 'ROU', 'RtR', 'SCW', 'TBS', 'TCW', 'ThA', 'TwentyFestivals'];
 
 
@@ -62,13 +64,17 @@ export async function fetchXmlData(searchOptions: SearchOptions, limit: number =
                 const legalities = searchOptions.legalities.map(l => l.toLowerCase());
                 const types = searchOptions.types.map(t => t.toLowerCase());
                 const clans = searchOptions.clans.map(c => c.toLowerCase());
+                const textSearch = searchOptions.textSearch.toLowerCase();
+                const keywords = searchOptions.keywords.map(k => k);
 
                 const matchesSearchTerm = card.name.toLowerCase().includes(searchTerm);
                 const matchesLegalities = legalities.length === 0 || legalities.some(l => card.legal.includes(l));
                 const matchesTypes = types.length === 0 || types.includes(card.type.toLowerCase());
                 const matchesClans = clans.length === 0 || clans.includes(card.clan?.toLowerCase() || '');
-
-                if (matchesSearchTerm && matchesLegalities && matchesTypes && matchesClans) {
+                const matchesTextSearch = card.text.toLowerCase().includes(textSearch);
+                const cardKeywords = extractKeywords(parseKeywordsAndText(card.text).keywords);
+                const matchesKeywords = keywords.length === 0 || keywords.every(k => cardKeywords.includes(k));
+                if (matchesSearchTerm && matchesLegalities && matchesTypes && matchesClans && matchesTextSearch && matchesKeywords) {
                     filteredCards.push(card);
                     count++;
                 }

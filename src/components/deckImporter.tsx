@@ -4,7 +4,10 @@ import buildDeckFromDecklistAndXML from '../services/deckImport';
 import { useDispatch } from 'react-redux';
 import { addToDeck, importDeck } from '../app/store';
 import { Card } from '../app/types';
-const DeckImporterButton: React.FC = () => {
+
+
+
+const DeckImporterButton: React.FC = (columns:any) => {
     const [open, setOpen] = useState(false);
     const [deckText, setDeckText] = useState('');
     const dispatch = useDispatch();

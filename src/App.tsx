@@ -10,12 +10,10 @@ function App() {
   return (
     <Router>
       <NavBar />
-      <Box>
         <Routes>
           <Route path="/deckbuilder" element={<DeckBuilder />} />
           <Route path="/" element={<Home />} />
         </Routes>
-      </Box>
     </Router>
   );
 }

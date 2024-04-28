@@ -9,6 +9,7 @@ const initialSearchState: SearchState = {
     types: [],
     clans: [],
     textSearch: '',
+    keywords: [],
     // Initialize more search options if needed
 };
 

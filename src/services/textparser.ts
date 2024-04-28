@@ -1,6 +1,6 @@
 export const parseKeywordsAndText = (text: string) => {
     const startIndex = 0;
-    const endIndex = text.indexOf('<br><br>');
+    const endIndex = text.indexOf('<br>');
     if (endIndex !== -1) {
         const keywordsText = text.substring(startIndex, endIndex);
         
@@ -14,9 +14,11 @@ export const parseKeywordsAndText = (text: string) => {
             return `<span>${keyword}</span>`;
         }).join(' • ');
         let parsedText = remainingText.replace(/<b>/g, '<strong>').replace(/<\/b>/g, '</strong>');
+        console.log(parsedKeywords);
         return { keywords: parsedKeywords, remainingText: parsedText };
     }
-
+    let testReturn = { keywords: '', remainingText: text };
+    console.log(testReturn);
     return { keywords: '', remainingText: text };
 };
 

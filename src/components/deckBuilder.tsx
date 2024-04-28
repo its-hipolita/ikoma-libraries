@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Typography, Popover, Card, CardMedia, Box } from '@mui/material';
+import { Stack, Typography, Popover, Card, CardMedia, Box, Select, MenuItem } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import DeckImporterButton from './deckImporter';
@@ -12,7 +12,8 @@ import cardTypes from '../data/cardTypes'; // Importing card types
 import { countCards, getColumnForCardType } from '../services/deckColumns';
 import DeckAnalytics from './deckAnalytics';
 import ResultsView from './resultsView';
-
+import DeckExporterButton from './deckExporter';
+import legalities from '../data/legalities';
 interface CardTypeCounts {
     [key: string]: number;
 }
@@ -20,6 +21,8 @@ interface CardTypeCounts {
 const DeckBuilder: React.FC = () => {
     const currentDeck = useSelector((state: RootState) => state.deck.currentDeck);
     const [anchorEls, setAnchorEls] = useState<(HTMLElement | null)[]>(Array(currentDeck.length).fill(null));
+    const [selectedLegality, setSelectedLegality] = useState<string>('All'); // State to store the selected legality
+
     const dispatch = useAppDispatch();
     const [cardTypeCounts, setCardTypeCounts] = useState<CardTypeCounts>(
         cardTypes.reduce((acc, type) => {
@@ -57,16 +60,20 @@ const DeckBuilder: React.FC = () => {
 
 
 
-
-// Inside the DeckBuilder component
-
-const renderCardCounts = () => {
-    const cardCounts = countCards(currentDeck);
     const columns: { [key: string]: JSX.Element[] } = {
         'Pre-game': [],
         'Dynasty': [],
         'Fate': [],
     };
+// Inside the DeckBuilder component
+
+const handleLegalityChange = (event:any) => { // Adjusted event type
+    setSelectedLegality(event.target.value);
+};
+
+const renderCardCounts = () => {
+    const cardCounts = countCards(currentDeck);
+
     // Initialize counters for each column
     const columnCardCounts: { [key: string]: number } = {
         'Pre-game': 0,
@@ -185,6 +192,20 @@ return (
                         Deck Builder
                     </Typography>
                     <DeckImporterButton />
+                    <DeckExporterButton legality={selectedLegality} /> {/* Pass selected legality as prop */}
+                    <Box ml={4} mt={2}>
+                <Typography variant="body1" mb={1}>Set legality:</Typography>
+                <Select
+                    value={selectedLegality}
+                    onChange={handleLegalityChange}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Set legality' }}
+                >
+                    {legalities.map((legality, index) => (
+                        <MenuItem key={index} value={legality}>{legality}</MenuItem>
+                    ))}
+                </Select>
+            </Box>
                 </Stack>
                 {currentDeck.length === 0 ? (
                     <Typography variant="body1">Your deck is empty.</Typography>

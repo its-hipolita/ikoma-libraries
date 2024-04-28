@@ -97,6 +97,7 @@ const QuickSearchBar: React.FC = () => {
             types: [],
             clans: [],
             textSearch: '',
+            keywords: [],
         };
         if (searchTerm.length > 0) {
             try {

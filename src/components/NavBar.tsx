@@ -67,15 +67,6 @@ const NavBar: React.FC = () => {
                                 Deck Builder
                             </Link>
                         </Typography>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="div"
-                            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-                        >
-                            Upload .txt deck
-                        </Typography>
-                        {/* Render the SearchBar component and pass the handleSearch function */}
                         <QuickSearchBar />
                     </Toolbar>
                 </AppBar>

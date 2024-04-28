@@ -4,6 +4,7 @@ import { Stack, TextField, Button, Autocomplete } from '@mui/material';
 import legalities from '../data/legalities';
 import cardTypes from '../data/cardTypes';
 import clanList from '../data/clanList copy';
+import keywordsArray from '../data/keywordsArray';
 import { useAppDispatch } from '../app/hooks';
 import { setSearchOptions } from '../app/store';
 import { useSelector } from 'react-redux';
@@ -16,6 +17,7 @@ const SearchForm = () => {
     const [selectedLegalities, setSelectedLegalities] = useState<string[]>(searchOptions.legalities);
     const [selectedTypes, setSelectedTypes] = useState<string[]>(searchOptions.types);
     const [selectedClans, setSelectedClans] = useState<string[]>(searchOptions.clans);
+    const [selectedKeywords, setSelectedKeywords] = useState<string[]>(searchOptions.keywords); // New state for selected keywords
     const dispatch = useAppDispatch();
 
     const handleSearch = (e:any) => {
@@ -26,13 +28,11 @@ const SearchForm = () => {
                 legalities: selectedLegalities,
                 types: selectedTypes,
                 clans: selectedClans,
-                textSearch: localTextSearch.trim(), // Include text search in setSearchOptions
+                textSearch: localTextSearch,
+                keywords: selectedKeywords, // Include selected keywords in setSearchOptions
             })
         );
     };
-
-    const isAnyOptionSelected =
-        selectedLegalities.length > 0 || selectedTypes.length > 0 || selectedClans.length > 0 || localTextSearch.trim() !== '';
 
     return (
         <Stack sx={{ width: 280, p: 2 }}>
@@ -84,6 +84,15 @@ const SearchForm = () => {
                     value={selectedClans}
                     onChange={(event, newValue) => setSelectedClans(newValue)}
                     renderInput={(params) => <TextField {...params} label="Clans" variant="outlined" size="small" fullWidth />}
+                    sx={{ mt: 2 }}
+                />
+                <Autocomplete
+                    multiple
+                    id="keywords"
+                    options={keywordsArray}
+                    value={selectedKeywords}
+                    onChange={(event, newValue) => setSelectedKeywords(newValue)}
+                    renderInput={(params) => <TextField {...params} label="Keywords" variant="outlined" size="small" fullWidth />}
                     sx={{ mt: 2 }}
                 />
             </form>

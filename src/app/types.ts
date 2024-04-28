@@ -4,6 +4,7 @@ export interface SearchOptions {
     types: string[],
     clans: string[],
     textSearch: string;
+    keywords: string[],
 }
 
 export interface QuickSearch {
