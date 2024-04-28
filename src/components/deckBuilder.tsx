@@ -176,14 +176,16 @@ const renderCardCounts = () => {
         </Stack>
     );
 };
-
-    return (
-        <>
-            <Stack direction="row" spacing={2}>
-                <Box>
-                <Typography variant="h5" gutterBottom>
-                    Deck Builder
-                </Typography>
+return (
+    <>
+        <Stack direction="row" spacing={2}>
+            <Box padding={4} width="50%">
+                <Stack direction="row" mb={2} alignItems="center">
+                    <Typography variant="h5" mr={2} gutterBottom>
+                        Deck Builder
+                    </Typography>
+                    <DeckImporterButton />
+                </Stack>
                 {currentDeck.length === 0 ? (
                     <Typography variant="body1">Your deck is empty.</Typography>
                 ) : (
@@ -191,16 +193,13 @@ const renderCardCounts = () => {
                         {renderCardCounts()}
                     </div>
                 )}
-                </Box>
-                <Box>
-                </Box>
-            </Stack>
-           
-            <Stack>
-                <DeckImporterButton></DeckImporterButton>
-            </Stack>
-        </>
-    );
+            </Box>
+            <Box maxWidth="50%">
+                <ResultsView />
+            </Box>
+        </Stack>
+    </>
+);
 };
 
 export default DeckBuilder;

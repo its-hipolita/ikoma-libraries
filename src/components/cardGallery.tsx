@@ -1,11 +1,11 @@
-import React from 'react';
-import { Grid, Box, Typography, Stack, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Typography, IconButton, Stack } from '@mui/material';
 import { AddCircleOutline, RemoveCircleOutline } from '@mui/icons-material'; // Import plus and minus icons
 import { Card } from '../app/types';
 import { parseKeywordsAndText } from '../services/textparser';
 import { useDispatch } from 'react-redux';
 import { addToDeck } from '../app/store';
-
+import Pagination from '@mui/material/Pagination';
 
 interface CardSingleProps {
     card: Card;
@@ -55,10 +55,18 @@ const CardSingle: React.FC<CardSingleProps> = ({ card }) => {
     );
 };
 
-
-
 const CardGallery: React.FC<CardGalleryProps> = ({ cards }) => {
-    if (cards.length === 0) {
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 20;
+    const totalPages = Math.ceil(cards.length / itemsPerPage);
+
+    const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    };
+
+    const slicedCards = cards.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+    if (slicedCards.length === 0) {
         return (
             <Typography variant="h5" align="center" sx={{ mt: 4 }}>
                 Search returned zero results.
@@ -67,14 +75,21 @@ const CardGallery: React.FC<CardGalleryProps> = ({ cards }) => {
     }
 
     return (
-
-        <Grid container spacing={4}>
-            {cards.map((card, index) => (
-                <Grid item key={index} xs={12} sm={6} md={4}>
-                    <CardSingle card={card} />
-                </Grid>
-            ))}
-        </Grid>
+        <>
+            <Stack direction="row" justifyContent="center" mt={4}>
+                <Pagination count={totalPages} page={page} onChange={handleChangePage} />
+            </Stack>
+            <Grid container spacing={4}>
+                {slicedCards.map((card, index) => (
+                    <Grid item key={index} xs={12} sm={6} md={4}>
+                        <CardSingle card={card} />
+                    </Grid>
+                ))}
+            </Grid>
+            <Stack direction="row" justifyContent="center" mt={4}>
+                <Pagination count={totalPages} page={page} onChange={handleChangePage} />
+            </Stack>
+        </>
     );
 };
 
