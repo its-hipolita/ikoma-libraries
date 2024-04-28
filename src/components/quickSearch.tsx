@@ -79,7 +79,6 @@ const QuickSearchBar: React.FC = () => {
 
 
     const handleAddCard = (card: Card) => {
-        console.log("adding to deck: " + card.name)
         dispatch(addToDeck(card));
     };
 
@@ -88,7 +87,6 @@ const QuickSearchBar: React.FC = () => {
     }
 
     const handleRemoveCard = (card: Card) => {
-        console.log("removing from deck: " + card.name)
         dispatch(removeFromDeck(card));
     }
 
@@ -103,7 +101,6 @@ const QuickSearchBar: React.FC = () => {
         if (searchTerm.length > 0) {
             try {
                 const cards = await fetchXmlData(searchOptions, 10, true); // Call XML service with quickSearch option
-                console.log(cards);
                 setSearchResults(cards); // Update search results with card names
                 setMenuOpen(true);
             } catch (error) {

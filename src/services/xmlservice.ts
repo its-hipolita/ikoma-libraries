@@ -4,9 +4,8 @@ import { SearchOptions } from '../app/types';
 const allowedEditions = ['AM', 'AMoH', 'CRI', 'EP', 'GoC', 'GS', 'HFW', 'Ivory', 'Onyx', 'RoJ', 'ROU', 'RtR', 'SCW', 'TBS', 'TCW', 'ThA', 'TwentyFestivals'];
 
 
-export async function fetchXmlData(searchOptions: SearchOptions, limit: number = 20, quickSearch: boolean = false): Promise<Card[]> {
+export async function fetchXmlData(searchOptions: SearchOptions, limit: number = 100, quickSearch: boolean = false): Promise<Card[]> {
     try {
-        console.log("searching for card named " + searchOptions.searchTerm);
         const response = await fetch('/db/database.xml');
         const xmlText = await response.text();
         const parser = new DOMParser();

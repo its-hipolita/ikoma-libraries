@@ -20,7 +20,6 @@ const CardSingle: React.FC<CardSingleProps> = ({ card }) => {
     const dispatch = useDispatch();
 
     const handleAddToDeck = () => {
-        console.log("adding to deck: " + card.name)
         dispatch(addToDeck(card));
     };
 

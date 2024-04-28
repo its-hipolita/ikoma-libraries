@@ -26,7 +26,7 @@ const ResultsView: React.FC = () => {
         };
         const searchTerm = 'hida';
         // Fetch data only if searchTerm is not empty
-        if (searchTerm) {
+        if (searchOptions) {
             fetchData();
         } else {
             // Reset data if searchTerm is empty

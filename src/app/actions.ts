@@ -24,6 +24,13 @@ export const removeFromDeck = (card: Card) => ({
     payload: card
 });
 
+export const IMPORT_DECK = 'IMPORT_DECK';
+
+export const importDeck = (deck: Card[]) => ({
+    type: ADD_TO_DECK,
+    payload: deck
+});
+
 export const setQuickSearch = (quickSearch:string) => ({
     type: 'SET_QUICK_SEARCH',
     payload: quickSearch,
