@@ -151,6 +151,7 @@ const keywordsArray = [
     "Enlightened",
     "Assassin",
     "Geisha",
+    "Geisha House",
     "Priest",
     "Kami",
     "Bandit",
