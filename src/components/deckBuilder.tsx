@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack, Typography, Popover, Card, CardMedia, Box, Select, MenuItem } from '@mui/material';
+import { Stack, Typography, Popover, Card, CardMedia, Box, Select, MenuItem, Tabs, Tab, InputLabel, FormControl } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import DeckImporterButton from './deckImporter';
@@ -22,6 +22,7 @@ const DeckBuilder: React.FC = () => {
     const currentDeck = useSelector((state: RootState) => state.deck.currentDeck);
     const [anchorEls, setAnchorEls] = useState<(HTMLElement | null)[]>(Array(currentDeck.length).fill(null));
     const [selectedLegality, setSelectedLegality] = useState<string>('All'); // State to store the selected legality
+    const [tabValue, setTabValue] = useState<number>(0); // State to store the selected tab index
 
     const dispatch = useAppDispatch();
     const [cardTypeCounts, setCardTypeCounts] = useState<CardTypeCounts>(
@@ -30,7 +31,6 @@ const DeckBuilder: React.FC = () => {
             return acc;
         }, {} as CardTypeCounts)
     );
-
 
     const handlePopoverOpen = (cardName: string, event: React.MouseEvent<any>) => {
         const cardIndex = currentDeck.findIndex(card => card.name === cardName);
@@ -43,6 +43,11 @@ const DeckBuilder: React.FC = () => {
 
     const handlePopoverClose = () => {
         setAnchorEls(Array(currentDeck.length).fill(null));
+    };
+
+    // Define tab change handler
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setTabValue(newValue);
     };
 
     useEffect(() => {
@@ -65,162 +70,201 @@ const DeckBuilder: React.FC = () => {
         'Dynasty': [],
         'Fate': [],
     };
-// Inside the DeckBuilder component
+    // Inside the DeckBuilder component
 
-const handleLegalityChange = (event:any) => { // Adjusted event type
-    setSelectedLegality(event.target.value);
-};
-
-const renderCardCounts = () => {
-    const cardCounts = countCards(currentDeck);
-
-    // Initialize counters for each column
-    const columnCardCounts: { [key: string]: number } = {
-        'Pre-game': 0,
-        'Dynasty': 0,
-        'Fate': 0,
+    const handleLegalityChange = (event: any) => { // Adjusted event type
+        setSelectedLegality(event.target.value);
     };
 
-    // Group cards by type
-    Object.entries(cardCounts).forEach(([cardName, count], index) => {
+    const renderCardCounts = () => {
+        const cardCounts = countCards(currentDeck);
 
-        const cardType = currentDeck.find(card => card.name === cardName)?.type;
-        const cardObject: any = currentDeck.find(card => card.name === cardName);
-        if (cardType) {
-            const popoverId = `mouse-over-popover-${cardName}`;
-            const popoverOpen = Boolean(anchorEls[currentDeck.findIndex(card => card.name === cardName)]);
-            
-            // Determine the appropriate column for the card type
-            const columnName = getColumnForCardType(cardType);
+        // Initialize counters for each column
+        const columnCardCounts: { [key: string]: number } = {
+            'Pre-game': 0,
+            'Dynasty': 0,
+            'Fate': 0,
+        };
 
-            // Check if the subheader for the card type exists in the column, if not, create it
-            if (!columns[columnName].some(element => element.key === cardType)) {
-                columns[columnName].push(
-                    <Typography key={cardType} sx={{ fontWeight: 'bold' }} variant="subtitle1" mb={1}>
-                        {cardType} ({cardTypeCounts[cardType]})
-                    </Typography>
-                );
-            }
+        // Group cards by type
+        Object.entries(cardCounts).forEach(([cardName, count], index) => {
 
-            const cardElement = (
-                <React.Fragment key={cardName}>
-                    <Box key={index} display="flex" alignItems="center" justifyContent="space-between" sx={{ padding: '5px'}}>
-                        <Typography 
-                            sx={{ width: '75%'}}
-                            aria-owns={popoverOpen ? popoverId : undefined}
-                            aria-haspopup="true"
-                            onMouseEnter={(event) => handlePopoverOpen(cardName, event)}
-                            onMouseLeave={handlePopoverClose}
-                        >
-                            {count} {cardName}
+            const cardType = currentDeck.find(card => card.name === cardName)?.type;
+            const cardObject: any = currentDeck.find(card => card.name === cardName);
+            if (cardType) {
+                const popoverId = `mouse-over-popover-${cardName}`;
+                const popoverOpen = Boolean(anchorEls[currentDeck.findIndex(card => card.name === cardName)]);
+
+                // Determine the appropriate column for the card type
+                const columnName = getColumnForCardType(cardType);
+
+                // Check if the subheader for the card type exists in the column, if not, create it
+                if (!columns[columnName].some(element => element.key === cardType)) {
+                    columns[columnName].push(
+                        <Typography key={cardType} sx={{ fontWeight: 'bold' }} variant="subtitle1" mb={1}>
+                            {cardType} ({cardTypeCounts[cardType]})
                         </Typography>
-                        <div>
-                            <IconButton aria-label="remove" onClick={() => dispatch(removeFromDeck(cardObject))} sx={{ width: '24px', height: '24px', borderRadius: '50%' }}>
-                                <RemoveIcon />
-                            </IconButton>
-                            <IconButton aria-label="add" onClick={() => dispatch(addToDeck(cardObject))} sx={{ width: '24px', height: '24px', borderRadius: '50%' }}>
-                                <AddIcon />
-                            </IconButton>
-                        </div>
-                    </Box>
+                    );
+                }
+
+                const cardElement = (
+                    <React.Fragment key={cardName}>
+                        <Box key={index} display="flex" alignItems="center" justifyContent="space-between" sx={{ padding: '5px' }}>
+                            <Typography
+                                sx={{ width: '75%' }}
+                                aria-owns={popoverOpen ? popoverId : undefined}
+                                aria-haspopup="true"
+                                onMouseEnter={(event) => handlePopoverOpen(cardName, event)}
+                                onMouseLeave={handlePopoverClose}
+                            >
+                                {count} {cardName}
+                            </Typography>
+                            <div>
+                                <IconButton aria-label="remove" onClick={() => dispatch(removeFromDeck(cardObject))} sx={{ width: '24px', height: '24px', borderRadius: '50%' }}>
+                                    <RemoveIcon />
+                                </IconButton>
+                                <IconButton aria-label="add" onClick={() => dispatch(addToDeck(cardObject))} sx={{ width: '24px', height: '24px', borderRadius: '50%' }}>
+                                    <AddIcon />
+                                </IconButton>
+                            </div>
+                        </Box>
 
 
-                    <Popover
-                        id={popoverId}
-                        sx={{
-                            pointerEvents: 'none',
-                        }}
-                        open={popoverOpen}
-                        anchorEl={anchorEls[currentDeck.findIndex(card => card.name === cardName)]}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        onClose={handlePopoverClose}
-                        disableRestoreFocus
-                    >
-                        <Card>
-                            <CardMedia
-                                component="img"
-                                height="400"
-                                image={currentDeck.find(card => card.name === cardName)?.image || ''}
-                                alt={cardName}
-                            />
-                        </Card>
-                    </Popover>
-                </React.Fragment>
-            );
+                        <Popover
+                            id={popoverId}
+                            sx={{
+                                pointerEvents: 'none',
+                            }}
+                            open={popoverOpen}
+                            anchorEl={anchorEls[currentDeck.findIndex(card => card.name === cardName)]}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            onClose={handlePopoverClose}
+                            disableRestoreFocus
+                        >
+                            <Card>
+                                <CardMedia
+                                    component="img"
+                                    height="400"
+                                    image={currentDeck.find(card => card.name === cardName)?.image || ''}
+                                    alt={cardName}
+                                />
+                            </Card>
+                        </Popover>
+                    </React.Fragment>
+                );
 
-            // Push the card element into the appropriate column
-            columns[columnName].push(cardElement);
-            // Increment the counter for the column
-            columnCardCounts[columnName] += count;
-        }
-    });
+                // Push the card element into the appropriate column
+                columns[columnName].push(cardElement);
+                // Increment the counter for the column
+                columnCardCounts[columnName] += count;
+            }
+        });
 
-    // Render each column
+        // Render each column
+        return (
+            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+                {Object.entries(columns).map(([columnName, cards], index) => (
+                    <Stack key={index} sx={{ flexGrow: 1 }} direction="column">
+                        <Typography
+                            variant="h6"
+                            mb={1}
+                            sx={{
+                                color: ['Dynasty', 'Fate'].includes(columnName) && columnCardCounts[columnName] < 40 ? 'red' : 'inherit'
+                            }}
+                        >
+                            {columnName} {['Dynasty', 'Fate'].includes(columnName) && ` (${columnCardCounts[columnName]}/40)`}
+                        </Typography>
+
+                        {cards}
+                    </Stack>
+                ))}
+            </Stack>
+        );
+    };
     return (
-        <Stack direction="row" spacing={2}>
-            {Object.entries(columns).map(([columnName, cards], index) => (
-                <Stack key={index} sx={{ flexGrow: 1 }}>
-                    <Typography
-                        variant="h6"
-                        mb={1}
+        <>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Tabs value={tabValue} onChange={handleTabChange} centered variant="fullWidth">
+                    <Tab
+                        label="Deck"
                         sx={{
-                            color: ['Dynasty', 'Fate'].includes(columnName) && columnCardCounts[columnName] < 40 ? 'red' : 'inherit'
+                            '&.Mui-selected': {
+                                color: 'primary.main',
+                                backgroundColor: 'background.paper',
+                            },
+                            '&:not(.Mui-selected)': {
+                                color: 'text.secondary',
+                                backgroundColor: 'background.default',
+                            },
                         }}
-                    >
-                        {columnName} {['Dynasty', 'Fate'].includes(columnName) && ` (${columnCardCounts[columnName]}/40)`}
-                    </Typography>
+                    />
+                    <Tab
+                        label="Analytics"
+                        sx={{
+                            '&.Mui-selected': {
+                                color: 'primary.main',
+                                backgroundColor: 'background.paper',
+                            },
+                            '&:not(.Mui-selected)': {
+                                color: 'text.secondary',
+                                backgroundColor: 'background.default',
+                            },
+                        }}
+                    />
+                </Tabs>
+            </Box>
 
-                    {cards}
+            {tabValue === 0 && (
+                <Stack padding={4} direction="row" justifyContent="space-between">
+                <Stack style={{ flex: 3 }} direction="column" mb={2} mr={8} sx={{marginRight: { xs: '0'}}} alignItems="center">
+                    <Stack direction="row" justifyContent="space-between">
+                        <DeckImporterButton/>
+                        <DeckExporterButton legality={selectedLegality} />
+                        <FormControl variant="standard" sx={{ minWidth: 120 }}>
+                            <Select
+                                labelId="demo-simple-select-filled-label"
+                                id="demo-simple-select-filled"
+                                value={selectedLegality}
+                                onChange={handleLegalityChange}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                {legalities.map((legality, index) => (
+                                    <MenuItem key={index} value={legality}>{legality}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Stack>
+                    {currentDeck.length === 0 ? (
+                        <Typography variant="body1">Your deck is empty.</Typography>
+                    ) : (
+                        <div>
+                            {renderCardCounts()}
+                        </div>
+                    )}
                 </Stack>
-            ))}
-        </Stack>
+                <Stack sx={{ flex: 2, display: { xs: 'none', md: 'flex' } }} >
+                    <ResultsView/>
+                </Stack>
+            </Stack>
+            
+            )}
+            {tabValue === 1 && (
+                <Stack>
+                    <DeckAnalytics />
+                    {/* <ResultsView /> */}
+                </Stack>
+            )}
+        </>
     );
-};
-return (
-    <>
-        <Stack direction="row" spacing={2}>
-            <Box padding={4} width="50%">
-                <Stack direction="row" mb={2} alignItems="center">
-                    <Typography variant="h5" mr={2} gutterBottom>
-                        Deck Builder
-                    </Typography>
-                    <DeckImporterButton />
-                    <DeckExporterButton legality={selectedLegality} /> {/* Pass selected legality as prop */}
-                    <Box ml={4} mt={2}>
-                <Typography variant="body1" mb={1}>Set legality:</Typography>
-                <Select
-                    value={selectedLegality}
-                    onChange={handleLegalityChange}
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Set legality' }}
-                >
-                    {legalities.map((legality, index) => (
-                        <MenuItem key={index} value={legality}>{legality}</MenuItem>
-                    ))}
-                </Select>
-            </Box>
-                </Stack>
-                {currentDeck.length === 0 ? (
-                    <Typography variant="body1">Your deck is empty.</Typography>
-                ) : (
-                    <div>
-                        {renderCardCounts()}
-                    </div>
-                )}
-            </Box>
-            <Box maxWidth="50%">
-                <ResultsView />
-            </Box>
-        </Stack>
-    </>
-);
 };
 
 export default DeckBuilder;

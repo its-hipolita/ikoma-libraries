@@ -45,9 +45,7 @@ const ResultsView: React.FC = () => {
     }
 
     return (
-        <Grid container>
             <CardGallery cards={data} />
-        </Grid>
     );
 };
 
