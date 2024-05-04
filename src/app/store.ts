@@ -9,6 +9,13 @@ export interface SearchState {
   clans: string[];
   textSearch: string,
   keywords: any[];
+  forceRange: [number | string, number | string];
+  chiRange: [number | string, number | string];
+  costRange: [number | string, number | string];
+  personalHonorRange: [number | string, number | string];
+  honorRequirementRange: [number | string, number | string];
+  goldProductionRange: [number | string, number | string];
+  focusValueRange: [number | string, number | string];
 }
 
 const initialState: SearchState = {
@@ -19,6 +26,13 @@ const initialState: SearchState = {
   clans: [],
   textSearch: '',
   keywords: [],
+  forceRange: ['', ''],
+  chiRange: ['', ''],
+  costRange: ['', ''],
+  personalHonorRange: ['', ''],
+  honorRequirementRange: ['', ''],
+  goldProductionRange: ['', ''],
+  focusValueRange: ['', ''],
 };
 export interface DeckState {
   currentDeck: Card[];

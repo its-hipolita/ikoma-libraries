@@ -5,8 +5,8 @@ import { parseKeywordsAndText } from './textparser';
 import { extractKeywords } from './extractKeywords';
 const allowedEditions = ['AM', 'AMoH', 'CRI', 'EP', 'GoC', 'GS', 'HFW', 'Ivory', 'Onyx', 'RoJ', 'ROU', 'RtR', 'SCW', 'TBS', 'TCW', 'ThA', 'TwentyFestivals'];
 
-
 export async function fetchXmlData(searchOptions: SearchOptions, limit: number = 100, quickSearch: boolean = false): Promise<Card[]> {
+    console.log(searchOptions);
     try {
         const response = await fetch('/db/database.xml');
         const xmlText = await response.text();
@@ -52,6 +52,7 @@ export async function fetchXmlData(searchOptions: SearchOptions, limit: number =
                     chi: cardNode.querySelector('chi')?.textContent || null,
                     personal_honor: cardNode.querySelector('personal_honor')?.textContent || null,
                     honor_req: cardNode.querySelector('honor_req')?.textContent || null,
+                    gold_production: cardNode.querySelector('gold_production')?.textContent || null,
                     // Other properties...
                 };
 
@@ -74,7 +75,39 @@ export async function fetchXmlData(searchOptions: SearchOptions, limit: number =
                 const matchesTextSearch = card.text.toLowerCase().includes(textSearch);
                 const cardKeywords = extractKeywords(parseKeywordsAndText(card.text).keywords);
                 const matchesKeywords = keywords.length === 0 || keywords.every(k => cardKeywords.includes(k));
-                if (matchesSearchTerm && matchesLegalities && matchesTypes && matchesClans && matchesTextSearch && matchesKeywords) {
+                
+                // Check if card properties fall within specified ranges
+                const matchesForceRange = 
+                (searchOptions.forceRange[0] === '' || String(parseInt(card.force || '0')) >= searchOptions.forceRange[0]) &&
+                (searchOptions.forceRange[1] === '' || String(parseInt(card.force || '0')) <= searchOptions.forceRange[1]);
+            
+            const matchesChiRange = 
+                (searchOptions.chiRange[0] === '' || String(parseInt(card.chi || '0')) >= searchOptions.chiRange[0]) &&
+                (searchOptions.chiRange[1] === '' || String(parseInt(card.chi || '0')) <= searchOptions.chiRange[1]);
+            
+            const matchesCostRange = 
+                (searchOptions.costRange[0] === '' || String(parseInt(card.cost || '0')) >= searchOptions.costRange[0]) &&
+                (searchOptions.costRange[1] === '' || String(parseInt(card.cost || '0')) <= searchOptions.costRange[1]);
+            
+            const matchesPersonalHonorRange = 
+                (searchOptions.personalHonorRange[0] === '' || String(parseInt(card.personal_honor || '0')) >= searchOptions.personalHonorRange[0]) &&
+                (searchOptions.personalHonorRange[1] === '' || String(parseInt(card.personal_honor || '0')) <= searchOptions.personalHonorRange[1]);
+            
+            const matchesHonorRequirementRange = 
+                (searchOptions.honorRequirementRange[0] === '' || String(parseInt(card.honor_req || '0')) >= searchOptions.honorRequirementRange[0]) &&
+                (searchOptions.honorRequirementRange[1] === '' || String(parseInt(card.honor_req || '0')) <= searchOptions.honorRequirementRange[1]);
+            
+            const matchesGoldProductionRange = 
+                (searchOptions.goldProductionRange[0] === '' || String(parseInt(card.gold_production || '0')) >= searchOptions.goldProductionRange[0]) &&
+                (searchOptions.goldProductionRange[1] === '' || String(parseInt(card.gold_production || '0')) <= searchOptions.goldProductionRange[1]);
+
+                const matchesFocusValueRange = 
+                (searchOptions.focusValueRange[0] === '' || String(parseInt(card.focus || '0')) >= searchOptions.focusValueRange[0]) &&
+                (searchOptions.focusValueRange[1] === '' || String(parseInt(card.focus || '0')) <= searchOptions.focusValueRange[1]);
+
+                if (matchesSearchTerm && matchesLegalities && matchesTypes && matchesClans && matchesTextSearch && matchesKeywords &&
+                    matchesForceRange && matchesChiRange && matchesCostRange && matchesPersonalHonorRange &&
+                    matchesHonorRequirementRange && matchesGoldProductionRange && matchesFocusValueRange) {
                     filteredCards.push(card);
                     count++;
                 }

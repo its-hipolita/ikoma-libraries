@@ -79,6 +79,7 @@ const buildDeckFromDecklistAndXML = async (decklist: string): Promise<Card[]> =>
                     chi: node.querySelector('chi')?.textContent || null,
                     personal_honor: node.querySelector('personal_honor')?.textContent || null,
                     honor_req: node.querySelector('honor_req')?.textContent || null,
+                    gold_production: node.querySelector('gold_production')?.textContent || null,
                 };
 
                 // Add the card to the deck's list of cards multiple times based on quantity

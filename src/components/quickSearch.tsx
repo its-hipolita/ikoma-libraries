@@ -98,6 +98,13 @@ const QuickSearchBar: React.FC = () => {
             clans: [],
             textSearch: '',
             keywords: [],
+            forceRange: ['', ''],
+            chiRange: ['', ''],
+            costRange: ['', ''],
+            personalHonorRange: ['', ''],
+            honorRequirementRange: ['', ''],
+            goldProductionRange: ['', ''],
+            focusValueRange: ['', ''],
         };
         if (searchTerm.length > 0) {
             try {

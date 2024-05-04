@@ -5,6 +5,13 @@ export interface SearchOptions {
     clans: string[],
     textSearch: string;
     keywords: string[],
+    forceRange: [number | string, number | string];
+    chiRange: [number | string, number | string];
+    costRange: [number | string, number | string];
+    personalHonorRange: [number | string, number | string];
+    honorRequirementRange: [number | string, number | string];
+    goldProductionRange: [number | string, number | string];
+    focusValueRange: [number | string, number | string];
 }
 
 export interface QuickSearch {
@@ -27,6 +34,7 @@ export interface Card {
     chi: string | null;
     personal_honor: string | null;
     honor_req: string | null;
+    gold_production: string | null;
 }
 
 export const SET_SEARCH_OPTIONS = 'SET_SEARCH_OPTIONS';
