@@ -4,7 +4,7 @@ import { Card } from '../app/types';
 import { fetchXmlData } from '../services/xmlservice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
-import { Grid } from '@mui/material';
+import axios from 'axios';
 
 const ResultsView: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -12,6 +12,18 @@ const ResultsView: React.FC = () => {
     const [data, setData] = useState<Card[]>([]);
 
     const searchOptions = useSelector((state: RootState) => state.search);
+
+    useEffect(() => {
+// Make a GET request to the backend server
+axios.get('http://localhost:3000')
+  .then(response => {
+    console.log('Response from backend:', response.data);
+  })
+  .catch(error => {
+    console.error('Error communicating with backend:', error);
+  });
+    });
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -24,7 +36,7 @@ const ResultsView: React.FC = () => {
                 setLoading(false);
             }
         };
-        const searchTerm = 'hida';
+        const searchTerm = '';
         // Fetch data only if searchTerm is not empty
         if (searchOptions) {
             fetchData();
