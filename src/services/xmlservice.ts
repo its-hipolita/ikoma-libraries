@@ -3,7 +3,7 @@ import imageList from '../services/imageList.json';
 import { SearchOptions } from '../app/types';
 import { parseKeywordsAndText } from './textparser';
 import { extractKeywords } from './extractKeywords';
-const allowedEditions = ['AM', 'AMoH', 'CRI', 'EP', 'GoC', 'GS', 'HFW', 'Ivory', 'Onyx', 'RoJ', 'ROU', 'RtR', 'SCW', 'TBS', 'TCW', 'ThA', 'TwentyFestivals'];
+const allowedEditions = ['AM', 'AMoH', 'CRI', 'EP', 'GoC', 'GoT', 'GS', 'HFW', 'Ivory', 'Onyx', 'RoJ', 'ROU', 'RtR', 'SCW', 'TBS', 'TCW', 'ThA', 'TwentyFestivals'];
 
 export async function fetchXmlData(searchOptions: SearchOptions, limit: number = 100, quickSearch: boolean = false): Promise<Card[]> {
     console.log(searchOptions);

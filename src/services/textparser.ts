@@ -11,7 +11,7 @@ export const parseKeywordsAndText = (text: string) => {
             keywordsText = keywordsText.substring(4);
         }
 
-        const keywords = keywordsText.split(/&#8226;|<br>/).map(keyword => keyword.trim()).filter(Boolean);
+        const keywords = keywordsText.split(/&#8226;|&8226;|<br>/).map(keyword => keyword.trim()).filter(Boolean);
 
         let tooLongKeyword = '';
 
