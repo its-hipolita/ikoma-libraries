@@ -46,7 +46,7 @@ const CardSingle: React.FC<CardSingleProps> = ({ card }) => {
                 </Grid>
 
                 <Grid item xs={location.pathname === '/deckbuilder' ? 2 : 4} >
-                    <img src={`/${card.image}`} alt={card.name} style={{ maxWidth: '100%', height: 'auto', position: 'relative' }} />
+                    <img src={card.image} alt={card.name} style={{ maxWidth: '100%', height: 'auto', position: 'relative' }} />
                     <div style={{ position: 'absolute', top: '10px', right: '0', padding: '0.5rem' }}>
                         <IconButton aria-label="remove" size="small">
                             <RemoveCircle sx={{ color: theme.palette.primary.main }} />
